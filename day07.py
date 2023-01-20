@@ -1,9 +1,12 @@
-#10_3
-class Thing3:
-    pass
+#10_4
 
-t = Thing3()
+class Element:
+    def __init__(self, name, symbol, number):
+        self.name = name
+        self.symbol = symbol
+        self.number = number
 
-t.letter = "xyz"
 
-print(t.letter)
+e = Element("Hydrogen", "H", 1)
+
+print(e.name, e.symbol, e.number)

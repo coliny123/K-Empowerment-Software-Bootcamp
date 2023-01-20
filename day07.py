@@ -1,9 +1,6 @@
-#10_1
+#10_2
 
-class Thing:
-    pass
+class Thing2:
+    letter = "abc"
 
-example = Thing()
-
-print(Thing)  #<class '__main__.Thing'>
-print(example)  #<__main__.Thing object at 0x0000022D92947610>
+print(Thing2.letter)

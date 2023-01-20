@@ -1,20 +1,19 @@
-#10_8
-class Element:
-    def __init__(self, name, symbol, number):
-        self.hidden_name = name
-        self.hidden_symbol = symbol
-        self.hidden_number = number
+#10_9
 
-    def get_name(self):
-        return self.hidden_name
-    def get_symbol(self):
-        return self.hidden_symbol
-    def get_number(self):
-        return  self.hidden_number
+class Bear:
+    def eats(self):
+        print( "berries")
 
+class Rabbit:
+    def eats(self):
+        print("clover")
 
-el_dict = {"name": "Hydrogen", "symbol": "H", "number": 1}
+class Octothorpe:
+    def eats(self):
+        print("campers")
 
-hydrogen = Element(**el_dict)
+b = Bear()
+r = Rabbit()
+o = Octothorpe()
 
-print(hydrogen.get_name(), hydrogen.hidden_symbol, hydrogen.hidden_number)
+b.eats(), r.eats(), o.eats()

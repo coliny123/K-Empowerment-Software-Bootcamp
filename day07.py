@@ -1,6 +1,9 @@
-#10_2
+#10_3
+class Thing3:
+    pass
 
-class Thing2:
-    letter = "abc"
+t = Thing3()
 
-print(Thing2.letter)
+t.letter = "xyz"
+
+print(t.letter)

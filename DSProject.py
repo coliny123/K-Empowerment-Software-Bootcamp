@@ -1,11 +1,39 @@
-# def add_friend(name, number):
-#     friends.append((name,number))
-#     for i in range(len(friends)-1):
-#         if friends[i][1] <= friends[i+1][1]:
-#             friends[i+1], friends[i][1] = friends[i+1] , friends[i]
-#
-#
-# friends = [("다현", 200), ("정연", 150), ("쯔위", 90), ("사나", 30), ("지효", 15)]
-#
-# add_friend("도환", 200)
-# print(friends)
+## 클래스와 함수 선언 부분 ##
+class Node():
+	def __init__(self):
+		self.data = None
+		self.link = None
+
+
+def printNodes(start):
+	current = start
+	if current == None:
+		return
+	print(current.data, end = ' ')
+	while current.link != None:
+		current = current.link
+		print(current.data, end = ' ')
+	print()
+
+
+## 전역 변수 선언 부분 ##
+memory = []
+head, current, pre = None, None, None
+dataArray = ["다현", "정연", "쯔위", "사나", "지효"]
+
+## 메인 코드 부분 ##
+if __name__ == "__main__":
+	node = Node()		# 첫 번째 노드
+	node.data = dataArray[0]
+	head = node
+	memory.append(node)
+
+	for data in dataArray[1:] :	# 두 번째 이후 노드
+		pre = node
+		node = Node()
+		node.data = data
+		pre.link = node
+		memory.append(node)
+
+	printNodes(head)
+	print(node.data)  # 마지막 노드인 지효가 node 라서 node.data는 마지막 노드의 데이터를 나타냄

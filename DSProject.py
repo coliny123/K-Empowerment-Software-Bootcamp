@@ -20,11 +20,8 @@ def delete_data(idx):
     len_pokemons = len(pokemons)
     pokemons[idx] = None  # 데이터 삭제
 
-    for i in range(idx + 1, len_pokemons):
-        pokemons[i - 1] = pokemons[i]
-        pokemons[i] = None  # 배열의 맨 마지막 위치 삭제
-
-    del (pokemons[len_pokemons - 1])
+    for i in range(idx, len_pokemons):
+        pokemons.pop()  # 배열의 맨 마지막 위치 삭제
 
 
 if __name__ == "__main__":  # 메인함수 시작 표시

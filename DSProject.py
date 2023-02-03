@@ -11,11 +11,28 @@ def insert_data(idx, pokemon):
 
     pokemons[idx] = pokemon  # 지정한 위치에 친구 추가
 
+
+def delete_data(idx):
+    if idx < 0 or idx > len(pokemons):
+        print("데이터를 삭제할 범위를 벗어났습니다.")
+        return
+
+    len_pokemons = len(pokemons)
+    pokemons[idx] = None  # 데이터 삭제
+
+    for i in range(idx + 1, len_pokemons):
+        pokemons[i - 1] = pokemons[i]
+        pokemons[i] = None  # 배열의 맨 마지막 위치 삭제
+
+    del (pokemons[len_pokemons - 1])
+
+
 if __name__ == "__main__":  # 메인함수 시작 표시
     pokemons = ["피카츄", "라이츄", "파이리", "꼬부기", "버터풀"]
-
     print(pokemons)
-    insert_data(2, '야도란')  # 처음부터 6, 에 넣었으면 out of range
+    #insert_data(2, '야도란')  # 처음부터 6, 에 넣었으면 out of range for문이 돌지 않음
+    delete_data(1)
     print(pokemons)
-    insert_data(6, '피존투')  # 처음에 야도란을 추가했기 때문에 늘어나서 가능
+    delete_data(3)  # 버터풀 지울 때는 for문이 돌지 않음
+    #insert_data(6, '피존투')  # 처음에 야도란을 추가했기 때문에 늘어나서 가능
     print(pokemons)

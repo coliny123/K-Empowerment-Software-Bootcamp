@@ -1,58 +1,121 @@
 ## 클래스와 함수 선언 부분 ##
-class Node() :
-	def __init__ (self) :
+class Node():
+	def __init__(self):
 		self.data = None
 		self.link = None
 
-def printNodes(start) :
+	# def __repr__(self):
+	# 	return f"Node__repr__"
+
+
+def print_nodes(start):
 	current = start
-	if current == None :
+	if current.link == None:
 		return
 	print(current.data, end = ' ')
-	while current.link != None:
+	while current.link != start:  #
 		current = current.link
 		print(current.data, end = ' ')
 	print()
 
-def makeSimpleLinkedList(namePhone) :
-	global memory, head, current, pre
-	printNodes(head)
 
-	node = Node()
-	node.data = namePhone
-	memory.append(node)
-	if head == None :			# 첫 번째 노드일 때
-		head = node
-		return
+def insert_nodes(find_data, insert_data):
+	global head, current, pre
 
-	if head.data[1] > namePhone[1] :	# 첫 번째 노드보다 작을 때
+	if head.data == find_data:  # 첫 번째 노드 삽입
+		node = Node()
+		node.data = insert_data
 		node.link = head
-		head = node
+		last = head
+		while last.link != head:   #
+			last = last.link   #
+		last.link = node  #
+		head = node  #
 		return
 
-	# 중간 노드로 삽입하는 경우
 	current = head
-	while current.link != None :
+	while current.link != head:  # 중간 노드 삽입
 		pre = current
 		current = current.link
-		if current.data[1] > namePhone[1]:
-			pre.link = node
+		if current.data == find_data:
+			node = Node()
+			node.data = insert_data
 			node.link = current
+			pre.link = node
 			return
 
-	# 삽입하는 노드가 가장 큰 경우
+	node = Node()  # 마지막 노드 삽입
+	node.data = insert_data
 	current.link = node
+	node.link = head  #
+
+
+def delete_nodes(delete_data):
+	global head, current, pre
+
+	if head.data == delete_data:
+		print("# 첫 노드가 삭제됨 #")
+		current = head
+		head = head.link
+		del current
+		return
+
+	current = head
+	while current.link != None:
+		pre = current  		    # 이전 current는 pre가 됨
+		current = current.link  # current가 한칸씩 증가
+		if current.data == delete_data:
+			print("# 중간 노드가 삭제됨 #")
+			pre.link = current.link
+			del current
+			return
+	# 삭제할 데이터를 못찾을 경우 함수 종료
+	print("# 삭제된 노드가 없음 #")
+
+
+def find_nodes(find_data):
+	global head, current, pre
+
+	current = head
+	if current.data == find_data:
+		return current
+
+	while current.link != None:
+		current = current.link
+		if current.data == find_data:
+			return current
+	return Node()
+
+
 
 ## 전역 변수 선언 부분 ##
-memory = []
+#memory = []
 head, current, pre = None, None, None
-dataArray = [["지민", 180], ["정국", 177], ["뷔", 183], ["슈가", 175], ["진", 179]]
+data_array = ["피카츄", "라이츄", "파이리", "꼬부기", "버터풀"]
+
 
 ## 메인 코드 부분 ##
-if __name__ == "__main__" :
+if __name__ == "__main__":
+	node = Node()		# 첫 번째 노드
+	node.link = head
+	node.data = data_array[0]
+	head = node  #
+	#memory.append(node)
 
-	for data in dataArray :
-		makeSimpleLinkedList(data)
+	for data in data_array[1:]:	# 두 번째 이후 노드
+		pre = node
+		node = Node()
+		node.data = data
+		pre.link = node
+		node.link = head  #
+		#memory.append(node)
 
-	printNodes(head)
+	print_nodes(head)
+	#print(node.data)  # 마지막 노드인 지효가 node 라서 node.data는 마지막 노드의 데이터를 나타냄
+	insert_nodes("피카츄", "잠만보")
+	print_nodes(head)
+	insert_nodes("파이리", "어니부기")
+	print_nodes(head)
+	insert_nodes("성윤모", "거북왕")
+	print_nodes(head)
 

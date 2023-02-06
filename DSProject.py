@@ -95,11 +95,11 @@ def find_nodes(find_data):
 	return Node()
 
 
-def count_odd_even():
+def count_plus_minus_zero():
 	# odd_even = count_odd_even()  # False가 리턴
 	global head, current, pre
 
-	even, odd = 0, 0
+	plus, minus, zero = 0, 0, 0
 
 	# SRP(단일 책임의 원칙) 위배
 	# if head == None:
@@ -107,27 +107,25 @@ def count_odd_even():
 
 	current = head
 	while True:
-		if current.data % 2 == 0:
-			even = even +1
+		if current.data > 0:
+			plus += 1
+		elif current.data < 0:
+			minus += 1
 		else:
-			odd = odd +1
+			zero += 1
 
 		if current.link == head:
 			break
 		current = current.link
-	return odd, even
+	return plus, minus, zero
 
 
-def make_minus_number(odd, even):
-	if odd>even:
-		remainder = 1
-	else:
-		remainder = 0
-
+def make_toggle_number(plus, minus, zero):
 	current = head
-	while current.link != head:
-		if current.data % 2 == remainder:
-			current.data *= current.data
+	while True:
+		current.data *= - 1
+		if current.link == head:
+			break
 		current = current.link
 
 
@@ -139,7 +137,7 @@ data_array = list()
 ## 메인 코드 부분 ##
 if __name__ == "__main__":
 	for _ in range(7):
-		data_array.append(random.randint(1, 100))
+		data_array.append(random.randint(-100, 100))
 
 	node = Node()		# 첫 번째 노드
 	node.link = head
@@ -156,7 +154,7 @@ if __name__ == "__main__":
 		#memory.append(node)
 
 	print_nodes(head)
-	odd_even = count_odd_even() #False가 리턴
-	print(f"odd number : {odd_even[0]}, even number : {odd_even[1]} ")
-	make_minus_number(odd_even[0], odd_even[1])
+	plus_minus_zero = count_plus_minus_zero() #False가 리턴
+	print(f"plus : {plus_minus_zero[0]}, minus : {plus_minus_zero[1]}, zero : {plus_minus_zero[2]}")
+	make_toggle_number(plus_minus_zero[0], plus_minus_zero[1], plus_minus_zero[2])
 	print_nodes(head)

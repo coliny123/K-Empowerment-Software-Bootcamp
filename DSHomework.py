@@ -1,8 +1,5 @@
-import random
-
-
 def is_stackempty():
-    global SIZE, stack, top
+    global SIZE, song, top
     if top == -1:
         return True
     else:
@@ -10,7 +7,7 @@ def is_stackempty():
 
 
 def is_stackfull():
-    global SIZE, stack, top
+    global SIZE, song, top
     if top >= SIZE-1:
         return True
     else:
@@ -18,42 +15,53 @@ def is_stackfull():
 
 
 def push(data):
-    global SIZE, stack, top
+    global SIZE, song, top
     if is_stackfull():
         return
     top += 1
-    stack[top] = data
+    song[top] = data
 
 
 def pop():
-    global SIZE, stack, top
+    global SIZE, song, top
     if is_stackempty():
         return
-    data = stack[top]
-    stack[top] = None
+    data = song[top]
+    song[top] = None
     top -= 1
     return data
 
 
-SIZE = 6
-stack = [None for _ in range(SIZE)]
+SIZE = 100
+song = [None for _ in range(SIZE)]
 top = -1
 
 if __name__ == "__main__":
-    stone_color = ["주황", "초록", "파랑", "보라", "빨강", "노랑"]
-    random.shuffle(stone_color)
+    with open("애국가.txt", "r", encoding="utf8")as rfp:
+        lyrics_array = rfp.readlines()
 
-    print("Way to cookie_house : ", end=" ")
-    for stone in stone_color:
-        push(stone)
-        print(f"{stone} => ", end=" ")
-    print("Cookie_house\n")
+    print("------original------")
+    for line in lyrics_array:
+        push(line)
+        print(f"{line}", end=" ")
+    print()
 
-    print("Way to home : ", end=" ")
-    for stone in stack:
-        data = pop()
-        print(f"{data} => ", end=" ")
-    print("Home\n")
+    print("------reverse------")
+    while True:
+        line = pop()
+        if line == None:
+            break
 
+        small_stack = [None for _ in range(len(line))]
+        small_top = -1
+        for ch in line:
+            small_top +=1
+            small_stack[small_top] = ch
 
+        while True:
+            if small_top == -1:
+                break
+            ch = small_stack[small_top]
+            small_top -=1
+            print(f"{ch}", end= "")
 

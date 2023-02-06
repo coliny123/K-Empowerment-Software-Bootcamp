@@ -1,4 +1,7 @@
 ## 클래스와 함수 선언 부분 ##
+import random
+
+
 class Node():
 	def __init__(self):
 		self.data = None
@@ -92,15 +95,52 @@ def find_nodes(find_data):
 	return Node()
 
 
+def count_odd_even():
+	# odd_even = count_odd_even()  # False가 리턴
+	global head, current, pre
+
+	even, odd = 0, 0
+
+	# SRP(단일 책임의 원칙) 위배
+	# if head == None:
+	# 	return False
+
+	current = head
+	while True:
+		if current.data % 2 == 0:
+			even = even +1
+		else:
+			odd = odd +1
+
+		if current.link == head:
+			break
+		current = current.link
+	return odd, even
+
+
+def make_minus_number(odd, even):
+	if odd>even:
+		remainder = 1
+	else:
+		remainder = 0
+
+	current = head
+	while current.link != head:
+		if current.data % 2 == remainder:
+			current.data *= current.data
+		current = current.link
+
 
 ## 전역 변수 선언 부분 ##
 #memory = []
 head, current, pre = None, None, None
-data_array = ["피카츄", "라이츄", "파이리", "꼬부기", "버터풀"]
-
+data_array = list()
 
 ## 메인 코드 부분 ##
 if __name__ == "__main__":
+	for _ in range(7):
+		data_array.append(random.randint(1, 100))
+
 	node = Node()		# 첫 번째 노드
 	node.link = head
 	node.data = data_array[0]
@@ -116,19 +156,7 @@ if __name__ == "__main__":
 		#memory.append(node)
 
 	print_nodes(head)
-	insert_nodes("피카츄", "잠만보")
+	odd_even = count_odd_even() #False가 리턴
+	print(f"odd number : {odd_even[0]}, even number : {odd_even[1]} ")
+	make_minus_number(odd_even[0], odd_even[1])
 	print_nodes(head)
-	insert_nodes("파이리", "어니부기")
-	print_nodes(head)
-	insert_nodes("성윤모", "거북왕")
-	print_nodes(head)
-
-	delete_nodes("잠만보")
-	print_nodes(head)
-	delete_nodes("어니부기")
-	print_nodes(head)
-	delete_nodes("재남")
-	print_nodes(head)
-
-	print(find_nodes("피카츄").data)
-	print(find_nodes("성윤모").data)

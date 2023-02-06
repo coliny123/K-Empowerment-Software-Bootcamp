@@ -1,43 +1,59 @@
-class Node():
-    def __init__(self):
-        self.data = None
-        self.plink = None
-        self.nlink = None
+import random
 
 
-def print_node(start):
-    current = start
-    if current.nlink == None:
+def is_stackempty():
+    global SIZE, stack, top
+    if top == -1:
+        return True
+    else:
+        return False
+
+
+def is_stackfull():
+    global SIZE, stack, top
+    if top >= SIZE-1:
+        return True
+    else:
+        return False
+
+
+def push(data):
+    global SIZE, stack, top
+    if is_stackfull():
         return
-    print("정방향 : ", end=" ")
-    print(current.data, end=" ")
-    while current.nlink != None:
-        current = current.nlink
-        print(current.data, end=" ")
-    print()
-    print("역방향 : ", end=" ")
-    print(current.data, end=" ")
-    while current.plink != None:
-        current = current.plink
-        print(current.data, end=" ")
+    top += 1
+    stack[top] = data
 
 
-head, current, pre, = None, None, None
-memory = []
-twice = ["다현", "정연", "쯔위", "사나", "지효"]
+def pop():
+    global SIZE, stack, top
+    if is_stackempty():
+        return
+    data = stack[top]
+    stack[top] = None
+    top -= 1
+    return data
 
-if __name__ == "__main__" :
-    node = Node()
-    node.data = twice[0]
-    head = node
-    memory.append(node)
 
-    for once in twice[1:]:
-        pre = node
-        node = Node()
-        node.data = once
-        pre.nlink = node
-        node.plink = pre
-        memory.append(node)
+SIZE = 6
+stack = [None for _ in range(SIZE)]
+top = -1
 
-print_node(head)
+if __name__ == "__main__":
+    stone_color = ["주황", "초록", "파랑", "보라", "빨강", "노랑"]
+    random.shuffle(stone_color)
+
+    print("Way to cookie_house : ", end=" ")
+    for stone in stone_color:
+        push(stone)
+        print(f"{stone} => ", end=" ")
+    print("Cookie_house\n")
+
+    print("Way to home : ", end=" ")
+    for stone in stack:
+        data = pop()
+        print(f"{data} => ", end=" ")
+    print("Home\n")
+
+
+

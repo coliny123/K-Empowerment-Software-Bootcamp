@@ -27,7 +27,7 @@ def insert_nodes(find_data, insert_data):
 		node.data = insert_data
 		node.link = head
 		last = head
-		while last.link != head:   #
+		while last.link != head:   # 원형linkedlist는 head로 끝까지 돌았는지 판단 선형linkedlist는 None으로
 			last = last.link   #
 		last.link = node  #
 		head = node  #
@@ -55,13 +55,18 @@ def delete_nodes(delete_data):
 
 	if head.data == delete_data:
 		print("# 첫 노드가 삭제됨 #")
+
 		current = head
 		head = head.link
+		last = head
+		while last.link != current:
+			last = last.link
+		last.link = head
 		del current
 		return
 
 	current = head
-	while current.link != None:
+	while current.link != head:  # 원형linkedlist는 head로 끝까지 돌았는지 판단 선형linkedlist는 None으로
 		pre = current  		    # 이전 current는 pre가 됨
 		current = current.link  # current가 한칸씩 증가
 		if current.data == delete_data:
@@ -80,7 +85,7 @@ def find_nodes(find_data):
 	if current.data == find_data:
 		return current
 
-	while current.link != None:
+	while current.link != head:  # 원형linkedlist는 head로 끝까지 돌았는지 판단 선형linkedlist는 None으로
 		current = current.link
 		if current.data == find_data:
 			return current
@@ -111,7 +116,6 @@ if __name__ == "__main__":
 		#memory.append(node)
 
 	print_nodes(head)
-	#print(node.data)  # 마지막 노드인 지효가 node 라서 node.data는 마지막 노드의 데이터를 나타냄
 	insert_nodes("피카츄", "잠만보")
 	print_nodes(head)
 	insert_nodes("파이리", "어니부기")
@@ -119,3 +123,12 @@ if __name__ == "__main__":
 	insert_nodes("성윤모", "거북왕")
 	print_nodes(head)
 
+	delete_nodes("잠만보")
+	print_nodes(head)
+	delete_nodes("어니부기")
+	print_nodes(head)
+	delete_nodes("재남")
+	print_nodes(head)
+
+	print(find_nodes("피카츄").data)
+	print(find_nodes("성윤모").data)

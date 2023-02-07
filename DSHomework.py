@@ -1,6 +1,6 @@
 def is_queue_full():
     global SIZE, rear, front, queue
-    if rear == SIZE-1:
+    if (rear+1 % SIZE) == front:
         return True
     else:
         return False
@@ -17,46 +17,40 @@ def is_queue_empty():
 def enqueue(data):
     global SIZE, rear, front, queue
     if is_queue_full():
-        print("queue is full")
-        return None
-    else:
-        rear += 1
-        queue[rear] = data
+        return
+    rear = (rear + 1) % SIZE
+    queue[rear] = data
 
 
 def dequeue():
     global SIZE, rear, front, queue
     if is_queue_empty():
-        print("queue is empty")
         return None
-    else:
-        front += 1
-        data = queue[front]
-        queue[front]= None
-
-        for i in range(front +1, SIZE):
-            queue[i-1] = queue[i]
-            queue[i] = None
-        front = -1
-        rear -= 1
-
-        return data
+    front = (front + 1) % SIZE
+    data = queue[front]
+    queue[front] = None
+    return data
 
 
-SIZE = 5
-rear = front = -1
+def cal_times():
+    global SIZE, rear, front, queue
+    time = 0
+    for i in range((front + 1) % SIZE, (rear + 1) % SIZE):
+        time += queue[i][1]
+    return time
+
+
+SIZE = 6
+rear = front = 0
 queue = [None for _ in range(SIZE)]
 
 if __name__ == "__main__":
-    enqueue("민지")
-    enqueue("혜린")
-    enqueue("하니")
-    enqueue("혜인")
-    enqueue("다니엘")
+    waiting = [("민지", 9), ("혜린", 3), ("하니", 4), ("혜인", 4), ("다니엘", 3)]
+    for i in waiting:
+        print(f"대기 예상 시간 : {cal_times()} 분 입니다.")
+        print(f"현재 대기 중 => {queue}\n")
+        enqueue(i)
 
-    for i in queue:
-        if is_queue_empty():
-            print("식당 영업 종료!")
-        else:
-            print(f"대기줄 상태 : {queue}")
-            print(f"{dequeue()} 님 식당에 들어감")
+    print(f"최종 대기 명단 => {queue}")
+    print("예약 마감!")
+

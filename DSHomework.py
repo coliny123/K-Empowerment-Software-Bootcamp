@@ -1,56 +1,52 @@
-def is_queue_full():
-    global SIZE, rear, front, queue
-    if (rear+1 % SIZE) == front:
-        return True
-    else:
-        return False
+import random
 
 
-def is_queue_empty():
-    global SIZE, rear, front, queue
-    if front == rear:
-        return True
-    else:
-        return False
+class TreeNode:
+    def __init__(self):
+        self.left = None
+        self.data = None
+        self.right = None
 
 
-def enqueue(data):
-    global SIZE, rear, front, queue
-    if is_queue_full():
+root = None
+song_list = ["Hype-Boy", "Ditto", "Attention", "Cookie", "OMG", "Next Level", "Savage"]
+request_list = [random.choice(song_list) for _ in range(20)]
+
+print(f"오늘 신청된 곡(중복ㅇ) : {request_list}")
+
+node = TreeNode()
+node.data = request_list[0]
+root = node
+
+for name in request_list[1:]:
+    node = TreeNode()
+    node.data = name
+
+    current = root
+    while True:
+        if name == current.data:
+            break
+        if name < current.data:
+            if current.left is None:
+                current.left = node
+                break
+            current = current.left
+        else:
+            if current.right is None:
+                current.right = node
+                break
+            current = current.right
+
+print("이진 탐색 트리 구성 완료!")
+
+
+def inorder(node):
+    if node is None:
         return
-    rear = (rear + 1) % SIZE
-    queue[rear] = data
+    inorder(node.left)
+    print(f"{node.data}", end=" ")
+    inorder(node.right)
 
 
-def dequeue():
-    global SIZE, rear, front, queue
-    if is_queue_empty():
-        return None
-    front = (front + 1) % SIZE
-    data = queue[front]
-    queue[front] = None
-    return data
-
-
-def cal_times():
-    global SIZE, rear, front, queue
-    time = 0
-    for i in range((front + 1) % SIZE, (rear + 1) % SIZE):
-        time += queue[i][1]
-    return time
-
-
-SIZE = 6
-rear = front = 0
-queue = [None for _ in range(SIZE)]
-
-if __name__ == "__main__":
-    waiting = [("민지", 9), ("혜린", 3), ("하니", 4), ("혜인", 4), ("다니엘", 3)]
-    for i in waiting:
-        print(f"대기 예상 시간 : {cal_times()} 분 입니다.")
-        print(f"현재 대기 중 => {queue}\n")
-        enqueue(i)
-
-    print(f"최종 대기 명단 => {queue}")
-    print("예약 마감!")
-
+print("오늘 신청된 곡 (중복x) : ", end=" ")
+inorder(root)

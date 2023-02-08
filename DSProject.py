@@ -1,67 +1,49 @@
-def is_stack_full():
-	global SIZE, stack,top
-	if top >= SIZE -1:
-		return True
-	return False
+# BFS
+from collections import deque
 
 
-def is_stack_empty():
-	global SIZE, stack,top
-	if top == -1:
-		return True
-	return False
+class Graph:
+    def __init__(self, size):
+        self.SIZE = size
+        self.graph = [[0 for x in range(size)] for x in range(size)]
 
 
-def push(data):
-	global SIZE, stack, top
-	if is_stack_full():
-		print("stack is FULL!!")
-		return
-	top = top + 1
-	stack[top] = data
+g = None
+# queue = []
+queue = deque([])  # deque as queue
+visited_array = []
 
 
-def pop():
-	global SIZE, stack, top
-	if is_stack_empty():
-		print("stack is EMPTY~")
-		return
-	temp = stack[top]
-	stack[top] = None
-	top -= 1
-	return temp
+g = Graph(4)
+g.graph[0][2] = 1; g.graph[0][3] = 1
+g.graph[1][2] = 1
+g.graph[2][0] = 1; g.graph[2][1] = 1; g.graph[2][3] = 1
+g.graph[3][0] = 1; g.graph[3][2] = 1
 
 
-def peek():
-	global SIZE, stack, top
-	if is_stack_empty():
-		print("stack is EMPTY~")
-		return None
-	return top
+current = 0
+queue.append(current)  # enqueue
+visited_array.append(current)
+
+while len(queue) != 0:
+    next = None
+    for vertex in range(4):
+        if g.graph[current][vertex] == 1:
+            if vertex in visited_array:
+                pass
+            else:
+                next = vertex
+                break
+
+    if next is not None:
+        current = next
+        queue.append(current)  # enqueue
+        visited_array.append(current)
+    else:
+        # current = queue.pop(0)  # O(n), OVERHEAD
+        current = queue.popleft()  # O(1), dequeue
 
 
-SIZE = int(input("stack size : "))
-stack = [None for _ in range(SIZE)]
-top = -1
-
-if __name__ == "__main__" :
-	while True:
-		select = input("삽입(i)/추출(e)/확인(v)/종료(x) 중 하나를 선택 ==> ").lower()
-		if select == 'x':
-			break
-		elif select == 'i':
-			data = input("input data ==> ")
-			push(data)
-			print("stack status : ", stack)
-		elif select == 'e':
-			data = pop()
-			print("extrated data ==> ", data)
-			print("stack status : ", stack)
-		elif select == 'v':
-			data = peek()
-			print("check data ==> ", data)
-			print("stack status : ", stack)
-		else :
-			print("input mismatch")
-
-	print("program end!")
+for i in visited_array:
+    print(i, end=' --> ')
+print("END")

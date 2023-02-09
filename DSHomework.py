@@ -1,23 +1,43 @@
-def sort_arr(arr):
-    for i in range(0, len(arr)-1):
-        min_idx = i
-        for k in range(i+1, len(arr)):
-            if arr[min_idx] > arr[k]:
-                min_idx = k
-        tmp = arr[i]
-        arr[i] = arr[min_idx]
-        arr[min_idx] = tmp
-    return arr
+import random
+import time
 
-two_dimension_arr = [[55, 33,250, 44], [88, 1, 76, 23], [199, 222, 38, 47], [155, 145, 20, 99]]
 
-one_demension_arr = []
+def qsort(arr, start, end):
+    if end <= start:
+        return
+    low = start
+    high = end
 
-for i in range(len(two_dimension_arr)):
-    for k in range(len(two_dimension_arr[i])):
-        one_demension_arr.append(two_dimension_arr[i][k])
+    pivot = arr[(low+high) // 2]
+    while low <= high:
+        while arr[low] < pivot:
+            low += 1
+        while arr[high] > pivot:
+            high -= 1
+        if low <= high:
+            arr[low], arr[high] = arr[high], arr[low]
+            low, high = low +1, high -1
+    mid = low
 
-print(f"1차원 배열 정렬 전 : {one_demension_arr}")
-one_demension_arr = sort_arr(one_demension_arr)
-print(f"1차원 배열 정렬 후 : {one_demension_arr}")
-print(f"중앙값 : {one_demension_arr[len(one_demension_arr) // 2]}")
+    qsort(arr, start, mid-1)
+    qsort(arr, mid, end)
+
+
+def quick_sort(arr):
+    qsort(arr, 0, len(arr)-1)
+
+
+count_arr = [1000, 10000, 12000, 15000]
+
+for count in count_arr:
+    tmp_arr = [random.randint(10000, 99999) for _ in range(count)]
+    quick_arr = tmp_arr[:]
+
+    print(f"데이터 수 : {count} 개")
+    start= time.time()
+    quick_sort(quick_arr)
+    end = time.time()
+    print("퀵 정렬 : %10.3f 초" % (end - start))
+    print()
+
+    count *=5

@@ -1,18 +1,20 @@
-def transformation(base, data):
-    if data < base:
-        print(number_char[data], end=" ")
-    else:
-        transformation(base, data//base)
-        print(number_char[data % base], end=" ")
-    binary_num = 0
+def sorting_ary(ary):
+    for j in range(1, len(ary)):
+        for i in range(j, 0, -1):
+            if ary[i-1][1] > ary[i][1]:
+                ary[i-1], ary[i] = ary[i], ary[i-1]
+
+    return ary
 
 
-number_char = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
 
-dec_num = int(input("10진수 입력 : "))
-print("2진수 : ", end="")
-transformation(2, dec_num)
-print("\n8진수 : ", end="")
-transformation(8, dec_num)
-print("\n16진수 : ", end="")
-transformation(16, dec_num)
+
+score_ary = [["민지", 90], ["혜린", 85],["혜인", 50], ["하니", 65], ["다니엘", 42], ["카리나", 95]]
+
+print(f"정렬 전 : {score_ary}")
+score_ary = sorting_ary(score_ary)
+print(f"정렬 후 : {score_ary}")
+print("##조편성")
+
+for i in range(len(score_ary) // 2):
+    print(f"{score_ary[i][0]} : {score_ary[len(score_ary)-1-i][0]}")

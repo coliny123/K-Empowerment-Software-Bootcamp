@@ -13,11 +13,11 @@ public class SimpleEchoServer {
         try (ServerSocket serverSocket = new ServerSocket(6000)) {
             Object connection;
             System.out.println("연결을 기다리는 중 ..........");
-            Socket clientSocket =
-                    serverSocket.accept();
+            Socket clientSocket = serverSocket.accept();
             System.out.println("클라이언트가 연결되었습니다. ");
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  // client 소켓에서 getinputstream으로 가져옴
+                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {  // autoflush: 버퍼 자동으로 비워주는 것
                 String line;
                 while ((line = br.readLine()) != null) {
                     System.out.println("클라이언트로 부터 받은 메세지: " + line);

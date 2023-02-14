@@ -17,7 +17,7 @@ public class SimpleEchoClient {
             PrintWriter pw = null;
             BufferedReader br = null;
             try{
-                clientSocket = new Socket("165.246.115.145", 6000);
+                clientSocket = new Socket("165.246.115.145", 6000);  // ip주소 얻어오기 & port#으로 접속 (연결정보)
                 pw = new PrintWriter(clientSocket.getOutputStream(), true);
                 br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 

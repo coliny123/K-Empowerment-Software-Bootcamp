@@ -6,40 +6,43 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
 
-public class SimpleEchoServer {
+
+public class SimpleEchoServer implements Runnable {
+    private static Socket clientSocket;
+
+    public SimpleEchoServer(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+    }
+
+
     public static void main(String[] args) {
-        System.out.println("에코 서버 시작됨");
-        try (ServerSocket serverSocket = new ServerSocket(9900)) {
-            System.out.println("클라이언트 접속 대기 중.....");
-            Socket clientSocket = serverSocket.accept();  // 접속 대기
-            System.out.println("클라이언트 접속됨.");
-
-            try (
-                    BufferedReader br = new BufferedReader(
-                            new InputStreamReader(clientSocket.getInputStream()));
-                    PrintWriter pw =
-                            new PrintWriter(clientSocket.getOutputStream(), true))
-            {
-                Stream.generate(()-> {
-                    try {
-                        return br.readLine();
-                    } catch (IOException ex) {
-                        return null;
-                    }
-                }).peek(text -> {  // IED가 map은 쓸모없는 return한다고 생각해서 peek으로 변경해줌
-                    System.out.println("클라이언트로 부터 받은 메세지 : " + text);  // while문에서 line의 역할을 함
-                    pw.println(text);
-                }).allMatch(Objects::nonNull);  // :: 참조할 때 쓰는 기호
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        System.out.println("Threaded Echo Server");
+        try (ServerSocket serverSocket = new ServerSocket(6000)) {
+            while (true) {
+                System.out.println("Waiting for connection.....");
+                clientSocket = serverSocket.accept();
+                SimpleEchoServer tes = new SimpleEchoServer(clientSocket);
+                new Thread(tes).start();  // Runable 인터페이스에서 implements 함
+            }
+        } catch (IOException ex) {
+            // Handle exceptions
+        }
+        System.out.println("Threaded Echo Server Terminating");
+    }
+        @Override
+        public void run () {
+            System.out.println("Connected to client using [" + Thread.currentThread() + "]");
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+                String inputLine;
+                while ((inputLine = br.readLine()) != null) {
+                    System.out.println("Client request [" + Thread.currentThread() + "]: " + inputLine);
+                    out.println(inputLine);
+                }
+                System.out.println("Client [" + Thread.currentThread() + " connection terminated");
+            } catch (IOException ex) {
+                // Handle exceptions
             }
         }
-        catch (IOException ex) {
-            System.out.println("접속 실패!");
-        }
-    }
 }

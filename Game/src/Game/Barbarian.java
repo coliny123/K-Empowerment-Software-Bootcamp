@@ -6,8 +6,4 @@ public class Barbarian extends Character {
         hp = 1000;
         mp = 150;
     }
-    @Override
-    void info() {
-
-    }
 }

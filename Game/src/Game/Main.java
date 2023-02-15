@@ -19,5 +19,7 @@ public class Main {
        s1.setWeapon(new Axe());
        s1.performWeapon();
        s1.info();
+       b1.setWeapon(()-> System.out.println("신오브로 아이스볼을 발사"));  // WeaponBehavior이 input도 없고 return도 없어서 람다로 일회용 코드 작성
+       b1.performWeapon();
     }
 }

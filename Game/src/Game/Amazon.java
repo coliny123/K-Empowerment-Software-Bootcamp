@@ -6,8 +6,4 @@ public class Amazon extends Character {
         mp = 250;
 
     }
-    @Override
-    void info() {
-
-    }
 }

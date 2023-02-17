@@ -2,35 +2,25 @@ package ramda;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class ShapeTest {
     public static void main(String[] args) {
-        List<Shape> rectagles = findShapeByType(Shape.shapes, "사각형");
+        List<Shape> rectagles = findShapes(Shape.shapes, s -> s.getType().equals("사각형"));
         System.out.print("사각형 :");
         System.out.println(rectagles);
-        List<Shape> redNSmallShapes = findShapesByColorNArea(Shape.shapes, "빨간색", 12.0);
+        List<Shape> redNSmallShapes = findShapes(Shape.shapes, s -> s.getColor().equals("빨간색") && s.getArea() <= 12.0);
         System.out.print("빨간 도형(면적<=12.0): ");
         System.out.println(redNSmallShapes);
     }
-    static List<Shape> findShapeByType(List<Shape> shapes, String type) {
+    static List<Shape> findShapes(List<Shape> shapes, Predicate<Shape> p) {
         List<Shape> result = new ArrayList<>();
 
         for(Shape s : shapes){
-            if(s.getType().equals(type)){
+            if(p.test(s)){
                 result.add(s);
             }
         }
         return result;
     }
-
-    static List<Shape> findShapesByColorNArea(List<Shape> shapes, String color, double area) {
-        List<Shape> result = new ArrayList<>();
-        for (Shape s:shapes){
-            if(s.getColor().equals(color) && s.getArea() <= area){
-                result.add(s);
-            }
-        }
-        return result;
-    }
-
 }

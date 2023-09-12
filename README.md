@@ -11,4 +11,5 @@
 - DataBase(My SQL, JDBC)
 - DataStructure
 - Algorithm
+- Design Pattern
 - Spring Framwork 실무 교육(legacy & boot)
